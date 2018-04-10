@@ -24,7 +24,7 @@ app.run(document.getElementById('main'));
 function getExamples() {
   const context = require.context('./example', true, /\/index\.jsx$/);
   return (
-    <div>
+    <div style={{margin: 20}}>
       <p> examples库用来演示Beatle框架的各大组成部分如何工作，其示例的目的是诠释前端SPA应用开发的4大关键要素来构建一个前端应用，其核心模式是MVP</p>
       <h3> SPA (单页应用) 的4大要素：</h3>
       <ul>
@@ -35,7 +35,14 @@ function getExamples() {
       </ul>
       <h3> 示例列表（Antd组件请查阅<a href="http://design.alipay.com/develop/web/components/" target="_blank" rel="noopener noreferrer">Antd文档</a>）： </h3>
       <ul>
-        {context.keys().reverse().map(key => {
+        {context.keys().sort((a, b) => {
+          const compare = a.split(/[\\/]/).length - b.split(/[\\/]/).length;
+          if (compare === 0) {
+            return [-1, 1][(a > b) - 0];
+          } else {
+            return compare;
+          }
+        }).map(key => {
           const demo = context(key);
           const keys = key.split(/[/\\]/);
           const klen = keys.length;
@@ -43,9 +50,9 @@ function getExamples() {
           if (klen === 3) {
             // 挂在为路由，注意，每个demo都是一个子应用，子应用可以已路由的形式挂在到主应用。
             app.route(path, demo);
-            return (<li key={key}><Beatle.Link to={path}>{demo.title}</Beatle.Link></li>);
+            return (<li key={key}><Beatle.Link to={'/' + path}>{demo.title}</Beatle.Link></li>);
           } else {
-            return (<li style={{marginLeft: 20 * (klen - 3)}} key={key}><Beatle.Link to={path}>{demo.title}</Beatle.Link></li>);
+            return (<li style={{marginLeft: 20 * (klen - 3)}} key={key}><Beatle.Link to={'/' + path}>{demo.title}</Beatle.Link></li>);
           }
         })}
       </ul>

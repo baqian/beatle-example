@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'beatle-pro';
+import Beatle, {Link} from 'beatle-pro';
 import Card from 'antd/lib/card';
 import Icon from 'antd/lib/icon';
 import Menu from 'antd/lib/menu';
@@ -13,7 +13,7 @@ export default class Demo extends React.Component {
     summary: PropTypes.string,
     route: PropTypes.object,
     routes: PropTypes.array.isRequired,
-    viewSource: PropTypes.string,
+    subRoute: PropTypes.object,
     children: PropTypes.any
   }
 
@@ -32,8 +32,11 @@ export default class Demo extends React.Component {
   }
 
   render() {
-    const {title, summary, route, routes, viewSource} = this.props;
-    const selectedKeys = route ? [route.path] : route.path;
+    const {title, subRoute, summary, route, routes} = this.props;
+    const selectedKeys = [subRoute ? Beatle.getResolvePath(subRoute) : Beatle.getResolvePath(route)];
+    const subTitle = subRoute && subRoute.component.title;
+    const viewSource = subRoute && subRoute.viewSource;
+    let subRoutes = [];
     return (<Layout>
       <Layout.Sider width={200} style={{background: '#fff'}}>
         <h3 style={{height: 40, lineHeight: '40px', margin: '0 20px', borderBottom: '1px solid #ddd'}}>实例列表<a href="/"><Icon type="rollback" /></a></h3>
@@ -43,15 +46,21 @@ export default class Demo extends React.Component {
           style={{height: '100%'}}
         >
           {routes.map(route => {
-            return (<Menu.Item key={route.path}><Link to={route.path}>{route.component.title}</Link></Menu.Item>);
+            if (route.childRoutes) {
+              subRoutes = subRoutes.concat(route.childRoutes);
+            }
+            return (<Menu.Item key={Beatle.getResolvePath(route)}><Link to={route.path}>{route.component.title}</Link></Menu.Item>);
+          })}
+          {subRoutes.map(route => {
+            return (<Menu.Item key={Beatle.getResolvePath(route)}><Link to={route.path} style={{paddingLeft: 10}}>{route.component.title}</Link></Menu.Item>);
           })}
         </Menu>
       </Layout.Sider>
       <Layout style={{padding: '0 24px 24px'}}>
-        {route && this.renderBreadCrumb(route)}
+        {subRoute && this.renderBreadCrumb(subRoute)}
         <Layout.Content style={{background: '#fff', padding: 24, margin: 0, minHeight: 280}}>
-          <Card title={(<div><h1>{title}</h1><p style={{whiteSpace: 'normal'}}>{summary}</p></div>)} extra={viewSource ? (<a href="javascript:;" onClick={() => this.setState({viewable: !this.state.viewable})}>源码 <Icon type="eye-o" /></a>) : null}>
-            {this.state.viewable ? (<pre style={{background: '#f7f7f7', padding: 20, border: '1px solid #ddd', marginBottom: 20}}>{viewSource}</pre>) : null}
+          <Card title={(<div><h1>{title + (subTitle && subTitle !== title ? ' - ' + subTitle : '')}</h1><p style={{whiteSpace: 'normal'}}>{summary}</p></div>)} extra={viewSource ? (<a href="javascript:;" onClick={() => this.setState({viewable: !this.state.viewable})}>源码 <Icon type="eye-o" /></a>) : null}>
+            {this.state.viewable && viewSource ? (<pre style={{background: '#f7f7f7', padding: 20, border: '1px solid #ddd', marginBottom: 20}}>{viewSource}</pre>) : null}
             {this.props.children}
           </Card>
         </Layout.Content>
