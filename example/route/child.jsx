@@ -3,6 +3,23 @@ import PropTypes from 'prop-types';
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
 import Button from 'antd/lib/button';
+import Affix from 'antd/lib/affix';
+
+class SubRoute extends React.Component {
+  static propTypes = {
+    children: PropTypes.any
+  }
+
+  render() {
+    return (<div>
+      <h5>➡️ 展示Antd Affix图钉组件示例</h5>
+      <Affix>
+        <Button type="primary">Affix top</Button>
+      </Affix>
+    </div>);
+  }
+}
+
 
 export default class Child extends React.Component {
   // 提供给示例用的
@@ -19,7 +36,7 @@ export default class Child extends React.Component {
   static routeOptions = {
     childRoutes: [{
       path: 'sub',
-      component: require('./subRoute')
+      component: SubRoute
     }]
   }
 
