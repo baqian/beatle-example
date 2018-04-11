@@ -23,10 +23,10 @@ export default class Demo extends React.Component {
 
   renderBreadCrumb(route) {
     const items = [];
-    items.push(<Breadcrumb.Item key={route.path}>{route.component.title}</Breadcrumb.Item>);
+    items.push(<Breadcrumb.Item key={route.path}>{route.component ? route.component.title : route.getComponent.title}</Breadcrumb.Item>);
     while (route.parent) {
       route = route.parent;
-      items.push(<Breadcrumb.Item key={route.path}>{route.component.title}</Breadcrumb.Item>);
+      items.push(<Breadcrumb.Item key={route.path}>{route.component ? route.component.title : route.getComponent.title}</Breadcrumb.Item>);
     }
     return (<Breadcrumb style={{margin: '12px 0'}}>{items.reverse()}</Breadcrumb>);
   }
@@ -34,7 +34,7 @@ export default class Demo extends React.Component {
   render() {
     const {title, subRoute, summary, route, routes} = this.props;
     const selectedKeys = [subRoute ? Beatle.getResolvePath(subRoute) : Beatle.getResolvePath(route)];
-    const subTitle = subRoute && subRoute.component.title;
+    const subTitle = subRoute && (subRoute.component ? subRoute.component.title : subRoute.getComponent.title);
     const viewSource = subRoute && subRoute.viewSource;
     let subRoutes = [];
     return (<Layout>
@@ -49,10 +49,10 @@ export default class Demo extends React.Component {
             if (route.childRoutes) {
               subRoutes = subRoutes.concat(route.childRoutes);
             }
-            return (<Menu.Item key={Beatle.getResolvePath(route)}><Link to={route.path}>{route.component.title}</Link></Menu.Item>);
+            return (<Menu.Item key={Beatle.getResolvePath(route)}><Link to={route.path}>{route.component ? route.component.title : route.getComponent.title}</Link></Menu.Item>);
           })}
           {subRoutes.map(route => {
-            return (<Menu.Item key={Beatle.getResolvePath(route)}><Link to={route.path} style={{paddingLeft: 10}}>{route.component.title}</Link></Menu.Item>);
+            return (<Menu.Item key={Beatle.getResolvePath(route)}><Link to={route.path} style={{paddingLeft: 10}}>{route.component ? route.component.title : route.getComponent.title}</Link></Menu.Item>);
           })}
         </Menu>
       </Layout.Sider>

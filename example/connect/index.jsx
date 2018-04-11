@@ -33,7 +33,7 @@ const routes = [{
   component: Root,
   childRoutes: [{
     path: 'normal',
-    component: require('./normal'),
+    getComponent: require('./normal'),
     viewSource: require('!!raw-loader!./normal')
   }, {
     path: 'decorator',

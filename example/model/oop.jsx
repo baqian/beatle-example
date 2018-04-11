@@ -2,6 +2,7 @@ import Beatle, {BaseModel} from 'beatle-pro';
 import Pane from '../pane';
 
 class UserModel extends BaseModel {
+  static displayName = 'User';
   state = {
     profile: {
       name: 'Guest'
