@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 import Demo from '../demo';
 
 const app = new Beatle({
-  name: 'injector',
+  name: 'view',
   subApp: true
 });
 
 class Root extends React.Component {
-  static title = '服务注入器';
+  static title = '生成视图';
 
   static propTypes = {
     route: PropTypes.object,
@@ -20,7 +20,7 @@ class Root extends React.Component {
     const {children, route} = this.props;
     return (<Demo
       title={Root.title}
-      summary="服务注入器，负责把通用JS类初始化后注入到组件（context）或者注入到Beatle应用全局"
+      summary="生成视图是一种特别的Hoc封装，可以注入数据模型和服务，从而得到的一个Hoc组件，改组件我们称之为视图"
       route={route}
       subRoute={children && children.props.route}
       routes={routes}
@@ -36,17 +36,9 @@ const routes = [{
     component: require('./normal'),
     viewSource: require('!!raw-loader!./normal')
   }, {
-    path: 'com',
-    component: require('./com'),
-    viewSource: require('!!raw-loader!./com')
-  }, {
-    path: 'single',
-    component: require('./single'),
-    viewSource: require('!!raw-loader!./single')
-  }, {
-    path: 'global',
-    component: require('./global'),
-    viewSource: require('!!raw-loader!./global')
+    path: 'decorator',
+    component: require('./decorator'),
+    viewSource: require('!!raw-loader!./decorator')
   }]
 }];
 

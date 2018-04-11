@@ -1,19 +1,9 @@
 import {Ajax} from 'beatle-pro';
-import React from 'react';
-// import PropTypes from 'prop-types';
-import Card from 'antd/lib/card';
+import Pane from '../pane';
 
-export default class Alone extends React.Component {
+export default class Alone extends Pane {
   // 提供给示例用的
-  static title = 'Beatle.Ajax';
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      logs: {}
-    };
-  }
+  static title = '独立Ajax调用';
 
   componentDidMount() {
     this.log('Ajax.request', '请求开始: https://api.github.com/users/baqian', '不通过Ajax初始化，直接发起请求');
@@ -96,35 +86,14 @@ export default class Alone extends React.Component {
       }
     });
     ajax3.get('https://api.github.com/users/baqian');
-  }
 
-  log(tag, title, summary, code) {
-    if (!this.state.logs[tag]) {
-      /* eslint-disable react/no-direct-mutation-state */
-      this.state.logs[tag] = [];
-    }
-    this.state.logs[tag].push({
-      title: title,
-      summary: summary,
-      code: code
+    this.log('new Ajax get 4', '初始化Ajax，传入origin配置项', '通过origin可以设置请求接口的前缀，从而在发请求时不用写完整的请求地址');
+    const ajax4 = new Ajax({
+      origin: 'https://api.github.com'
     });
-    this.forceUpdate();
-  }
-
-  render() {
-    const tags = Object.keys(this.state.logs);
-    return (<div>
-      {tags.map((tagName) => {
-        const logs = this.state.logs[tagName];
-        return (<Card key={tagName} title={tagName} bordered={false}>
-          {logs.map((log, index) => {
-            return (<div key={index}>
-              <h5>{(index + 1) + '. ' + log.title}</h5>
-              <p>{log.summary}</p>
-              {log.code ? (<pre style={{background: '#f7f7f7', padding: 20, border: '1px solid #ddd', marginBottom: 20}}>{log.code}</pre>) : null }</div>);
-          })}
-        </Card>);
-      })}
-    </div>);
+    this.log('new Ajax get 4', 'origin设置为：https://api.github.com', `发请求值需要url为/users/baqian即可`);
+    ajax4.get('/users/baqian').then(() => {
+      this.log('new Ajax get 4', '获取数据成功', '真实的请求地址为：https://api.github.com/users/baqian');
+    });
   }
 }

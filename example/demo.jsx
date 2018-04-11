@@ -38,7 +38,7 @@ export default class Demo extends React.Component {
     const viewSource = subRoute && subRoute.viewSource;
     let subRoutes = [];
     return (<Layout>
-      <Layout.Sider width={200} style={{background: '#fff'}}>
+      <Layout.Sider width={250} style={{background: '#fff'}}>
         <h3 style={{height: 40, lineHeight: '40px', margin: '0 20px', borderBottom: '1px solid #ddd'}}>实例列表<a href="/"><Icon type="rollback" /></a></h3>
         <Menu
           mode="inline"

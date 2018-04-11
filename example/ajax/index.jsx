@@ -20,7 +20,7 @@ class Root extends React.Component {
     const {children, route} = this.props;
     return (<Demo
       title={Root.title}
-      summary="接口调用"
+      summary="接口调用，每个Beatle应用维护一个ajax实例，也可以共用一个ajax实例，通过ajax实例提供规范化调用接口方法来触发请求，做到统一拦截、错误处理等"
       route={route}
       subRoute={children && children.props.route}
       routes={routes}
