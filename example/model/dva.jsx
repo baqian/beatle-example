@@ -1,6 +1,35 @@
-import {BaseModel} from 'beatle-pro';
+import Beatle, {Ajax} from 'beatle-pro';
 import Pane from '../pane';
 
-export default class Alone extends Pane {
-  static title = '兼容dva的数据模型'
+const UserModel = {
+  state: {
+    profile: {
+      name: 'Guest'
+    }
+  },
+  actions: {
+    * setProfile(name, {put, call}) {
+      const a = call(() => Ajax.request({url: 'https://api.github.com/users/' + name}));
+      return yield put({
+        profile: yield a
+      });
+    }
+  }
+};
+
+export default function aSyncRoute(nextState, callback) {
+  class Route extends Pane {
+    componentDidMount() {
+      this.log('dva迁移', '主要改变为dva数据模型改为Beatle数据模型，effects、reducers 和 subscription概念通通去掉，取而代之的是actions', 'actionKey的值可以是函数、Genertor或者Async函数，put参数可以直接把副作用结果更新到数据池', JSON.stringify(this.props.User.profile, null, 2));
+    }
+  }
+
+  const app = Beatle.getApp('model');
+  app.model(UserModel);
+
+  const model = app.model('User');
+  model.getAction('setProfile')('baqian').then(() => {
+    callback(Beatle.connect('User'), Route);
+  });
 }
+aSyncRoute.title = '替换dva的数据模型';
