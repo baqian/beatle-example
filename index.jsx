@@ -44,9 +44,10 @@ function getExamples() {
           if (klen === 3) {
             // 挂在为路由，注意，每个demo都是一个子应用，子应用可以已路由的形式挂在到主应用。
             app.route(path, demo);
-            return (<li key={key}><Beatle.Link to={'/' + path}>{demo.title}</Beatle.Link>
-              {demo.menus ? demo.menus.map(item => (<li style={{marginLeft: 20}} key={item.path}><Beatle.Link to={'/' + path + '/' + item.path}>{item.component ? item.component.title : item.getComponent.title}</Beatle.Link></li>)) : null}
-            </li>);
+            return (
+              <li key={key}><Beatle.Link to={'/' + path}>{demo.title}</Beatle.Link>
+                {demo.menus ? (<ul>{demo.menus.map(item => (<li style={{marginLeft: 20}} key={item.path}><Beatle.Link to={'/' + path + '/' + item.path}>{item.component ? item.component.title : item.getComponent.title}</Beatle.Link></li>))}</ul>) : null}
+              </li>);
           } else {
             return null;
           }

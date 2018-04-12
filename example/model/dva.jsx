@@ -2,6 +2,7 @@ import Beatle, {Ajax} from 'beatle-pro';
 import Pane from '../pane';
 
 const UserModel = {
+  displayName: 'User',
   state: {
     profile: {
       name: 'Guest'
@@ -10,8 +11,9 @@ const UserModel = {
   actions: {
     * setProfile(name, {put, call}) {
       const a = call(() => Ajax.request({url: 'https://api.github.com/users/' + name}));
-      return yield put({
-        profile: yield a
+      const result  = yield a;
+      yield put({
+        profile: result
       });
     }
   }
@@ -28,8 +30,10 @@ export default function aSyncRoute(nextState, callback) {
   app.model(UserModel);
 
   const model = app.model('User');
-  model.getAction('setProfile')('baqian').then(() => {
-    callback(Beatle.connect('User'), Route);
+  model.getAction('setProfile')('baqian').then((res) => {
+    console.log(model.state);
+    console.log(res);
+    callback(null, app.connect('User', Route));
   });
 }
 aSyncRoute.title = '替换dva的数据模型';

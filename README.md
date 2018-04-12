@@ -11,12 +11,16 @@
 
 ## 准备工作
 1. 自行安装`nodeJS`和`npm`
-2. npm安装`honeypack`到全局，最新版本为`0.1.13`
 
 ## 启动
-通过`honeypack start -p 3000`，如果指定端口号默认是`8000`。
 
-> 您也可以通过webpack来配置启动，入口模板为`index.html`，入口JSX为`index.jsx`
+通过webpack来配置启动，入口模板为`index.html`，入口JSX为`index.jsx`
+
+```javascript
+npm run start
+```
+
+> 您也可以
 
 ## 实例列表(图)
 ![实例图](https://img.alicdn.com/tfs/TB1sa5Xlf9TBuNjy1zbXXXpepXa-355-894.png)

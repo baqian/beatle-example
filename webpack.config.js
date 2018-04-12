@@ -39,6 +39,7 @@ var webpackOpts = {
                 method: 'coroutine'
               }]
             ],
+            filename: __filename
           }
         }
       },
@@ -109,7 +110,12 @@ var webpackOpts = {
     historyApiFallback: true,
     stats: 'errors-only',
     open: true
-  }
+  },
+  // 结合npm honeypack来启动，暂时没用
+  // honeypackConfig: {
+  //   mergeLoader: 'myown',
+  //   mergePlugin: 'myown',
+  // }
 };
 
 module.exports = webpackOpts;

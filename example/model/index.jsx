@@ -53,7 +53,7 @@ const routes = [{
     viewSource: require('!!raw-loader!./selector')
   }, {
     path: 'dva',
-    component: require('./dva'),
+    getComponent: require('./dva'),
     viewSource: require('!!raw-loader!./dva')
   }]
 }];
