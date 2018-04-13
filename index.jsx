@@ -1,7 +1,9 @@
 import React from 'react';
 import Beatle from 'beatle-pro';
-
+import marked from 'marked';
 import 'antd/dist/antd.less';
+import './index.less';
+
 // 1. 初始化应用
 const app = new Beatle({
   name: 'main'
@@ -23,17 +25,30 @@ app.run(document.getElementById('main'));
 // 其他例子需要
 function getExamples() {
   const context = require.context('./example', true, /\/index\.jsx$/);
+  const section = marked(`
+# beatle-example
+  库用来演示Beatle框架的各大组成部分如何工作，其示例的目的是诠释前端SPA应用开发的4大关键要素来构建一个前端应用.
+
+## 前端应用(SPA)的4大要素
+
+1. **一个应用实例app**，对SPA来说只会初始化一个应用实例（全局唯一的js对象），页面路由、数据管理 和 接口请求都通过app来控制和分配。
+2. **页面路由**，SPA应用下不同路由对应着不同的页面（视图），全部都交给app来处理。
+3. **数据管理**，SPA不同页面渲染依赖的数据，或者页面内多个组件之间的通信数据，不应该分散到各个地方，而是通过app维护一个js对象，用来存储所有必要的数据对象。根据OOP的思想，不同类型的数据是一个数据对象（数据模型）。
+4. **接口请求**，接口请求是前端和服务端通信获取的主要方式，对于SPA要能封装一个通用的接口请求类，通过这个类在接口请求处理时做到统一和规范化。
+
+## Beatle特性
+
+1. 简单化Api，快速掌握开发技巧，只需掌握React框架。
+2. 轻量概念，React-like-Model 构建数据模型（state存储数据状态，setState变更数据状态）
+3. MVVM实现VM模块自动化，即自动化绑定数据和视图逻辑。
+4. 应用中间件，数据通信过程的设置中间件，方便应用接入外部扩展。
+5. 由简入繁，多应用嵌套构建复杂应用，方便管理应用之间的通用服务通信 以及 数据通信。
+
+> 注意：想要快速掌握一个Beatle应用如何开发，那你可以到每个一级路由的index.jsx查阅下代码，都是一个Beatle应用。事实上整个beatle-example是一个复杂的多Beatle应用嵌套的SPA项目，仔细看实例代码会有更多收获！
+  `.trim());
   return (
     <div style={{margin: 20, fontSize: 16}}>
-      <p> beatle-example库用来演示Beatle框架的各大组成部分如何工作，其示例的目的是诠释前端SPA应用开发的4大关键要素来构建一个前端应用，其核心模式是MVP</p>
-      <h3> SPA (单页应用) 的4大要素：</h3>
-      <ul>
-        <li>1. <b>一个应用实例app</b>，对SPA来说只会初始化一个应用实例（全局唯一的js对象），页面路由、数据管理 和 接口请求都通过app来控制和分配。（参考MVP模式的P)</li>
-        <li>2. <b>页面路由</b>，SPA应用下不同路由对应着不同的页面（视图），全部都交给app来处理。（参考MVP的V）</li>
-        <li>3. <b>数据管理</b>，SPA不同页面渲染依赖的数据，或者页面内多个组件之间的通信数据，不应该分散到各个地方，而是通过app维护一个js对象，用来存储所有必要的数据对象。根据OOP的思想，不同类型的数据是一个数据对象（数据模型）。（参考MVP的M）</li>
-        <li>4. <b>接口请求</b>，接口请求是前端和服务端通信获取的主要方式，对于SPA要能封装一个通用的接口请求类，通过这个类在接口请求处理时做到统一和规范化。</li>
-      </ul>
-      <h3> 注意：想要快速掌握一个Beatle应用如何开发，那你可以到每个一级路由的index.jsx查阅下代码，都是一个Beatle应用。事实上整个beatle-example是一个复杂的多Beatle应用嵌套的SPA项目，仔细看实例代码会有更多收获！</h3>
+      <div dangerouslySetInnerHTML={{__html: section}}></div>
       <h3> 示例列表（Antd组件请查阅<a href="http://design.alipay.com/develop/web/components/" target="_blank" rel="noopener noreferrer">Antd文档</a>）：</h3>
       <ul>
         {context.keys().map(key => {

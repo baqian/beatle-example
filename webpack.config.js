@@ -38,8 +38,7 @@ var webpackOpts = {
                 module: 'bluebird',
                 method: 'coroutine'
               }]
-            ],
-            filename: __filename
+            ]
           }
         }
       },
@@ -114,7 +113,7 @@ var webpackOpts = {
   // 结合npm honeypack来启动，暂时没用
   // honeypackConfig: {
   //   mergeLoader: 'myown',
-  //   mergePlugin: 'myown',
+  //   mergePlugin: 'myown'
   // }
 };
 
